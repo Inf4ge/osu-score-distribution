@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import jsdom from 'jsdom';
 const JSDOM = jsdom.JSDOM;
 
-const interval = 3000;
+const interval = 1000;
 const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
 export const getCountryPageURL = page_num => `https://osu.ppy.sh/rankings/taiko/country?page=${page_num}#jump-target`;
@@ -107,8 +107,8 @@ export const getRankingPageInfo = async (url) => {
     Array.from(rows)
       .map(x => ({
         name: x.querySelector('.ranking-page-table__user-link-text').textContent.replace(/[\n ]/g, ''),
-        pp: parseInt(x.querySelector('td:nth-child(5)').textContent.replace(/[\n ]/g, '')),
-        play_count: parseInt(x.querySelector('td:nth-child(4)').textContent.replace(/[\n ]/g, ''))
+        pp: parseInt(x.querySelector('td:nth-child(5)').textContent.replace(/[\n ,]/g, '')),
+        play_count: parseInt(x.querySelector('td:nth-child(4)').textContent.replace(/[\n ,]/g, ''))
       }));
 
   const pnavs = document.querySelectorAll('.paginator__page');
