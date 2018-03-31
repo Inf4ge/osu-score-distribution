@@ -1,0 +1,32 @@
+{
+  "name": "osu-score-distribution",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --experimental-modules index.mjs",
+    "eslint-init": "eslint --init",
+    "lint": "eslint *.js",
+    "test": "mocha -r esm test/test.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sititou70/osu-score-distribution.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sititou70/osu-score-distribution/issues"
+  },
+  "homepage": "https://github.com/sititou70/osu-score-distribution#readme",
+  "dependencies": {
+    "eslint": "^4.19.1",
+    "esm": "^3.0.14",
+    "get-parameter": "^1.0.8",
+    "jsdom": "^11.6.2",
+    "mocha": "^5.0.5",
+    "node-fetch": "^2.1.2",
+    "yamljs": "^0.3.0"
+  }
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>osu-score-distribution</title>
+    <link rel="stylesheet" href="/css/master.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <label for="country"></label>
+    <select id="country_code"></select>
+
+    <label for="threshold"></label>
+    <input id="threshold"></input>
+
+    <button id="reload">reload</button>
+
+    <div class="histogram"></div>
+    <div class="deviation"></div>
+
+    <script charset="utf-8">
+      window.module = {};
+    </script>
+    <script src="./node_modules/get-parameter/index.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
+</html>
