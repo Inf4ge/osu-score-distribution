@@ -1,4 +1,18 @@
-const getParameter = module.exports;
+const getParameter = name => {
+  var queryDict = {};
+  var queries = location.search.substr(1).split('&');
+  for (var i=0; i<queries.length; i++) {
+    queryDict[queries[i].split('=')[0]] = decodeURIComponent(queries[i].split('=')[1]);
+  }
+
+  // if name specified, return that specific get parameter
+  if (name) {
+    return queryDict.hasOwnProperty(name) ? decodeURIComponent(queryDict[name].replace(/\+/g, ' ')) : '';
+  }
+
+  return queryDict;
+};
+
 
 const base_dir = './temp/';
 const country_code = getParameter().country_code;
@@ -7,7 +21,7 @@ const sample_rate = parseFloat(getParameter().sample_rate);
 
 if(country_code === undefined
     || typeof play_count !== 'number'
-    || typeof sample_rate !== 'number')location.href = './index.html?country_code=ALL&play_count=100&sample_rate=0.9';
+    || typeof sample_rate !== 'number')location.href = './index.html?country_code=ALL&play_count=500&sample_rate=0.5';
 
 (async () => {
   //get countries data
