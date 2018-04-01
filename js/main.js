@@ -2,8 +2,12 @@ const getParameter = module.exports;
 
 const base_dir = './temp/';
 const country_code = getParameter().country_code;
+const play_count = parseInt(getParameter().play_count);
+const sample_rate = parseFloat(getParameter().sample_rate);
 
-if(country_code === undefined)location.href = './index.html?country_code=ALL';
+if(country_code === undefined
+    || typeof play_count !== 'number'
+    || typeof sample_rate !== 'number')location.href = './index.html?country_code=ALL&play_count=100&sample_rate=0.9';
 
 (async () => {
   //get countries data
@@ -23,14 +27,20 @@ if(country_code === undefined)location.href = './index.html?country_code=ALL';
     country_select.appendChild(option);
   });
 
-  document.querySelector('#reload').addEventListener('click', () => location.href = `./index.html?country_code=${country_select.value}`);
+  const play_count_input = document.querySelector('#play_count');
+  play_count_input.value = play_count;
+
+  const sample_rate_input = document.querySelector('#sample_rate');
+  sample_rate_input.value = sample_rate;
+
+  document.querySelector('#reload').addEventListener('click', () => location.href = `./index.html?country_code=${country_select.value}&play_count=${play_count_input.value}&sample_rate=${sample_rate_input.value}`);
 
   //get users data
   let users = country_code === 'ALL' ? await getAllUsers(countries) : await getCountryUsers(country_code);
   //filter user
   users = users
-    .filter(x => x.play_count > 0)
-    .filter(x => Math.random() > 0);
+    .filter(x => x.play_count > play_count)
+    .filter(x => Math.random() < sample_rate);
 
   //draw charts
   google.charts.load("current", {packages:["corechart"]});
@@ -74,6 +84,8 @@ const drawChart = users => {
   histogram.draw(histogram_data, {
     title: `pp histogram of Osu!Taiko users(${country_code})`,
     legend: { position: 'none' },
+    chartArea: { width: '90%' },
+    hAxis: { showTextEvery: 2 }
   });
 
   const users_info = getUsersInfo(users);
@@ -84,14 +96,16 @@ const drawChart = users => {
     ...Array.from({length: 15000})
       .map((x, i) => (i - users_info.avg) * 10 / users_info.sd + 50)
       .map((x, i) => [i, x])
-      .filter((x, i) => i % 100 === 0)
+      .filter((x, i) => i % 50 === 0)
   ]);
 
   const pp_sd_chart = new google.visualization.LineChart(document.querySelector('.sd'));
   pp_sd_chart.draw(pp_sd_data, {
     title: 'pp standard deviation',
     curveType: 'line',
-    legend: { position: 'none' }
-  });
+    legend: { position: 'none' },
+    hAxis: { gridlines: { count: 50 } },
+    chartArea: { width: '90%' }
+ });
 };
 
