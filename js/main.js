@@ -29,8 +29,8 @@ if(country_code === undefined)location.href = './index.html?country_code=ALL';
   let users = country_code === 'ALL' ? await getAllUsers(countries) : await getCountryUsers(country_code);
   //filter user
   users = users
-    .filter(x => x.pp < 200)
-    .filter(x => Math.random() > 0.99);
+    .filter(x => x.play_count > 0)
+    .filter(x => Math.random() > 0);
 
   //draw charts
   google.charts.load("current", {packages:["corechart"]});
